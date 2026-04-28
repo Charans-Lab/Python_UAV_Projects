@@ -29,10 +29,6 @@ for i in range(len(mission_coordinates)):
     waypoints_list.append(each_waypoint)
     check_altitude(altitude,waypoint_number)
 
-print(latitudes)
-print(longitudes)
-print(waypoint_numbers)
-
 def haversine(lat1, lon1, lat2, lon2):
                 
         dLat = (lat2 - lat1) * math.pi / 180.0
@@ -60,19 +56,19 @@ for i in range(1, len(mission_coordinates)):
         lon2 = point_b[2] 
         total_distance = total_distance + haversine(lat1,lon1,lat2,lon2)
 
-print(f"Total mission distance: {total_distance:2f} km")
+print(f"Total mission distance: {total_distance:.2f} km")
 print(f"Estimated time: {total_distance/30:.2f} hours")    # distance(km) / 30(km/h) = hours
-print(f"Estimate battery: {(total_distance/30)*20:2f} %")                # per hour my drone will consure 20% 
+print(f"Estimate battery: {(total_distance/30)*20:.2f} %")                # per hour my drone will consure 20% 
 
 fig, ax = plt.subplots()
 
 for i in range(len(waypoint_numbers)):
     if i == 0:
         color = "g"        
-    elif i == len(waypoint_numbers):
-        colour = "r"       
+    elif i == len(waypoint_numbers)-1:
+        color = "r"       
     else:
-        colour = "r"
+        color = "b"
     ax.scatter(longitudes[i],latitudes[i], marker = 'o', c = color)
     ax.annotate(waypoint_numbers[i], xy= (longitudes[i],latitudes[i]))
  
