@@ -51,11 +51,6 @@ async def run():
         waypoints_list.append(each_waypoint)
         check_altitude(altitude,waypoint_number)
 
-
-
-
-
-
     mission_items = []
     for wp in waypoints_list:
         mission_items.append(MissionItem(
