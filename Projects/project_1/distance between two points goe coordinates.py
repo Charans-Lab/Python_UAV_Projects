@@ -31,6 +31,3 @@ if __name__ == "__main__":
     lon2 = 74.0445
     
     print(haversine(lat1, lon1,lat2, lon2), "K.M.")
-
-# This code is contributed 
-# by ChitraNayal
