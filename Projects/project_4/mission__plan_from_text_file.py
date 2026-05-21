@@ -70,6 +70,7 @@ async def run():
             MissionItem.VehicleAction.NONE,
         ))
     mission_plan = MissionPlan(mission_items)
+    print(mission_plan)
 
 
 
