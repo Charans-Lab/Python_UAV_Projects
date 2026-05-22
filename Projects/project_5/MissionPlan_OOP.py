@@ -16,8 +16,8 @@ class DroneMission:
 
     def load_waypoints(self):
         with open(self.waypoints_location) as file:
-            waypoints = file.read().splitlines()
-        
+            waypoints = [line for line in file.read().splitlines() if line.strip()]
+        print(waypoints)
         # waypoints_list = []
         for i in range(len(waypoints)):
             waypoint_number, latitude, longitude,altitude = waypoints[i].split()            
@@ -75,6 +75,9 @@ class DroneMission:
                 break
     
     async def upload_mission(self):
+        await self.drone.mission.clear_mission()
+        await asyncio.sleep(2)
+        # print("cleared existing mission")
         await self.drone.mission.set_return_to_launch_after_mission(True)
         print("uploading mission to drone....")
         await self.drone.mission.upload_mission(self.mission_plan)
@@ -87,6 +90,7 @@ class DroneMission:
 
     async def mission_monitor(self):
         async for mission_progress in self.drone.mission.mission_progress():
+            print(mission_progress.current)
             print(f"Mission progress: {mission_progress.current}/{mission_progress.total}")
                      
  
@@ -96,8 +100,7 @@ class DroneMission:
         await self.connection_to_drone()
         await self.check_health()
         await self.upload_mission()
-        await self.execute_mission()
-        await self.mission_monitor()
+        await asyncio.gather(self.execute_mission(), self.mission_monitor())       
   
 
 async def main():
