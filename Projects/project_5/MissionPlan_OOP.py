@@ -1,22 +1,19 @@
 # project 5 MissionPlan using object oreinted programming.
-
 import asyncio
 from mavsdk import System
 from mavsdk.mission import MissionItem, MissionPlan
 from pathlib import Path
 class DroneMission:
-    def __init__(self, waypoints_location):
-        
+    def __init__(self, waypoints_location):        
         self.waypoints_location = waypoints_location
         self.waypoints =[]
         self.mission_plan = None
         self.MISSION_SPEED_MS = 10.0
-        self.DGCA_ALTITUDE_LIMIT_M = 120       
+        self.DGCA_ALTITUDE_LIMIT_M = 120  
 
     def load_waypoints(self):
         with open(self.waypoints_location) as file:
-            waypoints = [line for line in file.read().splitlines() if line.strip()]
-                
+            waypoints = [line for line in file.read().splitlines() if line.strip()]                
         for i in range(len(waypoints)):
             waypoint_number, latitude, longitude,altitude = waypoints[i].split()            
             waypoint_number = int(waypoint_number)
@@ -25,14 +22,12 @@ class DroneMission:
             altitude = float(altitude)
             each_waypoint =[waypoint_number, latitude, longitude, altitude]            
             self.waypoints.append(each_waypoint)
-            self.check_altitude(altitude, waypoint_number)
-            
+            self.check_altitude(altitude, waypoint_number)            
     def check_altitude(self, altitude, waypoint_number):
         if altitude > self.DGCA_ALTITUDE_LIMIT_M:
                 print(f" waypoint:{waypoint_number}, altitude is {altitude} m, exceed DGCA limit {self.DGCA_ALTITUDE_LIMIT_M}m ")
         
-    def build_mission_plan(self):     
-
+    def build_mission_plan(self): 
         mission_items = []
         for wp in self.waypoints:            
             mission_items.append(MissionItem(
@@ -50,10 +45,8 @@ class DroneMission:
             float('nan'),  # yaw_deg
             float('nan'),  # camera_photo_distance_m
             MissionItem.VehicleAction.NONE,
-            ))
-            
-        self.mission_plan = MissionPlan(mission_items)
-        
+            ))            
+        self.mission_plan = MissionPlan(mission_items)        
 
     async def connection_to_drone(self):
         self.drone = System()
@@ -104,13 +97,10 @@ class DroneMission:
         await self.upload_mission()
         await asyncio.gather(self.execute_mission(), self.mission_monitor())    
         
-  
-
 async def main():
     waypoints_file = Path(__file__).parent / "waypoints.txt"    
     mission = DroneMission(waypoints_file)   
     await mission.run()
-
 asyncio.run(main())
 
 
