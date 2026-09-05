@@ -1,18 +1,15 @@
 import math
 
-no_of_waypoints = int(input("Enter the no.of waypoint"))
+no_of_waypoints = int(input("Enter the no.of waypoint")) # Asking user for no.of waypoints *input*
 waypoints_list = []
 distance = 0
 for i in range(no_of_waypoints):
-    latitude, longitude, altitude = input("enter the latitude longitude altitude").split()
+    latitude, longitude, altitude = input("enter the latitude longitude altitude").split() #*input* based on way points running a for loop for getting each way point.
     each_waypoint =[latitude, longitude, altitude]
     float_each_waypoint =[float(item) for item in each_waypoint]
     waypoints_list.append(float_each_waypoint)
 
-
-def Missionplan_summary():
-    
-    def haversine(lat1, lon1, lat2, lon2):
+def haversine(lat1, lon1, lat2, lon2):
         global distance
         
         dLat = (lat2 - lat1) * math.pi / 180.0
@@ -33,6 +30,8 @@ def Missionplan_summary():
         distance = distance + a_to_b_distance
         
         return rad * c
+
+def Missionplan_summary():   
     
     for i in range(1, no_of_waypoints):
         pointa = waypoints_list[i-1]
