@@ -1,7 +1,7 @@
 import math
 import matplotlib.pyplot as plt
 
-with open("geo location file.txt") as file:
+with open("project _3/geo location file.txt") as file:
     mission_coordinates = file.read().splitlines()
 
 waypoints_list = []
